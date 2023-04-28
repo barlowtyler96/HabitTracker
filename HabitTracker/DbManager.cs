@@ -15,21 +15,26 @@ namespace ExerciseTracker
         //Create
         public static void Insert()
         {
+
             string date = Helpers.GetDateInput();
 
-            int miles = Helpers.GetNumberInput("Enter the amount of miles jogged as an integer: (1, 2, 3)." +
+            string habit = Helpers.GetHabitInput();
+
+            string unit = Helpers.GetUnitInput();
+
+            int amount = Helpers.GetNumberInput("Enter the amount as an integer: (1, 2, 3)." +
                                         "\nType 0 to return to the main menu");
 
-            using (var conneciton = new SQLiteConnection(Program.ConnectionString))
+            using (var connection = new SQLiteConnection(Program.ConnectionString))
             {
-                conneciton.Open();
-                var tableCmd = conneciton.CreateCommand();
+                connection.Open();
+                var tableCmd = connection.CreateCommand();
                 tableCmd.CommandText =
-                    $"INSERT INTO jogging(date, miles) VALUES ('{date}', {miles})";
+                    $"INSERT INTO habits(Date, Habit, Unit, Amount) VALUES ('{date}', '{habit}', '{unit}', {amount})";
 
                 tableCmd.ExecuteNonQuery();
 
-                conneciton.Close();
+                connection.Close();
             }
             Console.Clear();
         }
@@ -49,7 +54,7 @@ namespace ExerciseTracker
                 var tableCmd = connection.CreateCommand();
 
                 tableCmd.CommandText =
-                    $"SELECT * FROM jogging";
+                    $"SELECT * FROM habits";
 
                 var tableData = new List<Exercise>();
 
@@ -64,7 +69,10 @@ namespace ExerciseTracker
                             {
                                 Id = reader.GetInt32(0), //returns value of column specified
                                 Date = DateTime.ParseExact(reader.GetString(1), "mm-dd-yy", new CultureInfo("en-US")), //returns date from column specified
-                                Miles = reader.GetInt32(2) //returns miles of column specified
+                                Habit = reader.GetString(2),
+                                Unit = reader.GetString(3),
+                                Amount = reader.GetInt32(4) //returns amount of column specified
+
                             });
                     }
                 }
@@ -73,12 +81,12 @@ namespace ExerciseTracker
                 connection.Close();
 
 
-                Console.WriteLine("====================================");
+                Console.WriteLine("===================================================================================");
                 foreach (var ex in tableData)
                 {
-                    Console.WriteLine($"ID: {ex.Id} Date: {ex.Date.ToString("MM-dd-yyyy")} miles: {ex.Miles}");
+                    Console.WriteLine(@$"ID: {ex.Id}  ||  Date: {ex.Date.ToString("MM-dd-yyyy")}  ||  Habit: {ex.Habit}  ||  Unit: {ex.Unit}  ||  Amount: {ex.Amount}");
                 }
-                Console.WriteLine("====================================");
+                Console.WriteLine("===================================================================================");
             }
         }
 
@@ -100,7 +108,7 @@ namespace ExerciseTracker
                 connection.Open();
 
                 var checkCmd = connection.CreateCommand();
-                checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM jogging WHERE Id = {recordId})";
+                checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM habits WHERE Id = {recordId})";
                 var checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());//returns 0 for false 1 for true
 
                 if (checkQuery == 0)
@@ -112,12 +120,16 @@ namespace ExerciseTracker
 
                 string date = Helpers.GetDateInput();
 
-                var miles = Helpers.GetNumberInput("Enter the amount of miles jogged as an integer: (1, 2, 3)." +
+                string habit = Helpers.GetHabitInput();
+
+                string unit = Helpers.GetUnitInput();   
+
+                var amount = Helpers.GetNumberInput("Enter the amount as an integer: (1, 2, 3)." +
                                         "\nType 0 to return to the main menu");
 
                 var tableCmd = connection.CreateCommand();
-                tableCmd.CommandText = $"UPDATE jogging SET date = '{date}', miles = {miles}" +
-                                       $" WHERE Id = {recordId}";
+                tableCmd.CommandText = $"UPDATE habits SET date = '{date}', Habit = {habit}, Unit = {unit}, Amount = {amount}" +
+                                      $" WHERE Id = {recordId}";
 
                 tableCmd.ExecuteNonQuery();
 
@@ -144,7 +156,7 @@ namespace ExerciseTracker
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
 
-                tableCmd.CommandText = $"DELETE from jogging WHERE Id = '{recordId}'";
+                tableCmd.CommandText = $"DELETE from habits WHERE Id = '{recordId}'";
 
                 var rowCount = tableCmd.ExecuteNonQuery();//returns the amount of rows affected by command
 

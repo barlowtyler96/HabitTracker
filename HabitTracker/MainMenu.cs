@@ -18,31 +18,31 @@ namespace ExerciseTracker
                 Console.WriteLine("\n\nMAIN MENU");
                 Console.WriteLine("\nWhat would you like to do?\n");
                 Console.WriteLine("===========================");
-                Console.WriteLine("Type E to Exit");
-                Console.WriteLine("Type V to View All Records");
-                Console.WriteLine("Type 1 to Insert a Record");
-                Console.WriteLine("Type 2 to Delete a Record");
-                Console.WriteLine("Type 3 to Update a Record");
+                Console.WriteLine("Type 0 to Exit");
+                Console.WriteLine("Type 1 to View All Records");
+                Console.WriteLine("Type 2 to Insert a Record");
+                Console.WriteLine("Type 3 to Delete a Record");
+                Console.WriteLine("Type 4 to Update a Record");
                 Console.WriteLine("===========================\n");
 
                 var commandInput = Console.ReadLine();
 
-                switch (commandInput.ToLower())
+                switch (commandInput)
                 {
-                    case "e":
+                    case "0":
                         Console.WriteLine("\nGoodbye!");
                         closeApp = true;
                         break;
-                    case "v":
+                    case "1":
                         DbManager.ViewAllRecords();
                         break;
-                    case "1":
+                    case "2":
                         DbManager.Insert();
                         break;
-                    case "2":
+                    case "3":
                         DbManager.Delete();
                         break;
-                    case "3":
+                    case "4":
                         DbManager.Update();
                         break;
                     default:

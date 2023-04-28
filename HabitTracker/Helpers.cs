@@ -9,6 +9,7 @@ namespace ExerciseTracker
 {
     internal static class Helpers
     {
+
         public static int GetNumberInput(string message)
         {
             Console.WriteLine(message);
@@ -30,6 +31,7 @@ namespace ExerciseTracker
 
 
 
+
         public static string GetDateInput()
         {
             Console.WriteLine("Please enter the date: (mm-dd-yy). Type 0 to return to the Main Menu.");
@@ -46,6 +48,37 @@ namespace ExerciseTracker
             }
 
             return dateInput;
+        }
+
+
+
+        internal static string GetHabitInput()
+        {
+            Console.WriteLine("Enter the habit you would like to track or type 0 to return to the Main Menu");
+            var habitInput = Console.ReadLine();
+
+            if(habitInput == "0")
+                MainMenu.GetUserInput();
+
+            //Make sure input is string
+            return habitInput;
+        }
+
+
+
+        internal static string GetUnitInput()
+        {
+            Console.WriteLine("Enter the unit of measurement you would like to use (ex: miles, cups, hours)" +
+                              " or type 0 to return to the Main Menu");
+            var unitInput = Console.ReadLine();
+
+            if (unitInput == "0")
+                MainMenu.GetUserInput();
+
+            //Make sure input is string
+
+            return unitInput;
+
         }
     }
 }
