@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExerciseTracker
+﻿namespace HabitTracker
 {
     internal class MainMenu
     {
@@ -17,13 +11,13 @@ namespace ExerciseTracker
             {
                 Console.WriteLine("\n\nMAIN MENU");
                 Console.WriteLine("\nWhat would you like to do?\n");
-                Console.WriteLine("===========================");
+                Console.WriteLine("================================");
                 Console.WriteLine("Type 0 to Exit");
-                Console.WriteLine("Type 1 to View All Records");
+                Console.WriteLine("Type 1 to View Records");
                 Console.WriteLine("Type 2 to Insert a Record");
                 Console.WriteLine("Type 3 to Delete a Record");
                 Console.WriteLine("Type 4 to Update a Record");
-                Console.WriteLine("===========================\n");
+                Console.WriteLine("================================\n");
 
                 var commandInput = Console.ReadLine();
 
@@ -34,7 +28,7 @@ namespace ExerciseTracker
                         closeApp = true;
                         break;
                     case "1":
-                        DbManager.ViewAllRecords();
+                        DbViewer.ViewRecords();  
                         break;
                     case "2":
                         DbManager.Insert();

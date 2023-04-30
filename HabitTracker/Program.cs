@@ -1,7 +1,6 @@
-﻿using HabitTracker;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 
-namespace ExerciseTracker
+namespace HabitTracker
 {
     internal class Program
     {
@@ -9,8 +8,29 @@ namespace ExerciseTracker
         
         static void Main(string[] args)
         {
-            
-            DbController.CreateDb(); // If db does not exist, create.
+            var connectionString = @"Data Source=habit-Tracker.db";
+
+            //Using statement calls Dispose() after the using block is left.
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                var tableCmd = connection.CreateCommand(); //Creates a command to send to DB
+
+                tableCmd.CommandText = //Defines the command string to create a table
+                    @"CREATE TABLE IF NOT EXISTS habits
+                        (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Date TEXT,
+                        Activity TEXT,
+                        Unit TEXT,
+                        Amount INTEGER
+                        )";
+
+                tableCmd.ExecuteNonQuery();//Executes the command without returning a value. Only telling it to create a table.
+
+                connection.Close(); //Closes the connection with the DB
+            }
+            MainMenu.GetUserInput();
         }
         
     }

@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SQLite;
 
-namespace ExerciseTracker
+
+namespace HabitTracker
 {
     internal class DbManager
     {
 
 
-        //Create
+
         public static void Insert()
         {
 
             string date = Helpers.GetDateInput();
 
-            string habit = Helpers.GetHabitInput();
+            string activity = Helpers.GetActivityInput();
 
             string unit = Helpers.GetUnitInput();
 
@@ -30,7 +25,7 @@ namespace ExerciseTracker
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
                 tableCmd.CommandText =
-                    $"INSERT INTO habits(Date, Habit, Unit, Amount) VALUES ('{date}', '{habit}', '{unit}', {amount})";
+                    $"INSERT INTO habits(Date, Activity, Unit, Amount) VALUES ('{date}', '{activity}', '{unit}', {amount})";
 
                 tableCmd.ExecuteNonQuery();
 
@@ -43,63 +38,13 @@ namespace ExerciseTracker
 
 
 
-        //Read
-        public static void ViewAllRecords()
-        {
-            Console.Clear();
-            using (var connection = new SQLiteConnection(Program.ConnectionString))
-            {
-                connection.Open();
-
-                var tableCmd = connection.CreateCommand();
-
-                tableCmd.CommandText =
-                    $"SELECT * FROM habits";
-
-                var tableData = new List<Exercise>();
-
-                SQLiteDataReader reader = tableCmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        tableData.Add(
-                            new Exercise
-                            {
-                                Id = reader.GetInt32(0), //returns value of column specified
-                                Date = DateTime.ParseExact(reader.GetString(1), "mm-dd-yy", new CultureInfo("en-US")), //returns date from column specified
-                                Habit = reader.GetString(2),
-                                Unit = reader.GetString(3),
-                                Amount = reader.GetInt32(4) //returns amount of column specified
-
-                            });
-                    }
-                }
-                else { Console.WriteLine("No records found."); }
-
-                connection.Close();
 
 
-                Console.WriteLine("===================================================================================");
-                foreach (var ex in tableData)
-                {
-                    Console.WriteLine(@$"ID: {ex.Id}  ||  Date: {ex.Date.ToString("MM-dd-yyyy")}  ||  Habit: {ex.Habit}  ||  Unit: {ex.Unit}  ||  Amount: {ex.Amount}");
-                }
-                Console.WriteLine("===================================================================================");
-            }
-        }
-
-
-
-
-
-        //Update
         public static void Update()
         {
             Console.Clear();
 
-            ViewAllRecords();
+            DbViewer.ViewRecords();
 
             var recordId = Helpers.GetNumberInput("\n\nPlease type the Id of the record you'd like to update " +
                                                 "or 0 to return to the Main Menu");
@@ -120,7 +65,7 @@ namespace ExerciseTracker
 
                 string date = Helpers.GetDateInput();
 
-                string habit = Helpers.GetHabitInput();
+                string activity = Helpers.GetActivityInput();
 
                 string unit = Helpers.GetUnitInput();   
 
@@ -128,7 +73,7 @@ namespace ExerciseTracker
                                         "\nType 0 to return to the main menu");
 
                 var tableCmd = connection.CreateCommand();
-                tableCmd.CommandText = $"UPDATE habits SET date = '{date}', Habit = {habit}, Unit = {unit}, Amount = {amount}" +
+                tableCmd.CommandText = $"UPDATE habits SET date = '{date}', Activity = '{activity}', Unit = '{unit}', Amount = {amount}" +
                                       $" WHERE Id = {recordId}";
 
                 tableCmd.ExecuteNonQuery();
@@ -142,11 +87,11 @@ namespace ExerciseTracker
 
 
 
-        //Delete
+
         public static void Delete()
         {
             Console.Clear();
-            ViewAllRecords();
+            DbViewer.ViewRecords();
 
             var recordId = Helpers.GetNumberInput("\n\nPlease type the Id of the record you'd like to delete " +
                                                 "or 0 to return to the Main Menu");
