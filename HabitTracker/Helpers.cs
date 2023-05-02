@@ -5,9 +5,6 @@ namespace HabitTracker
     internal static class Helpers
     {
 
-
-  
-
         internal static int GetNumberInput(string message)
         {
             Console.WriteLine(message);
@@ -26,9 +23,6 @@ namespace HabitTracker
 
             return finalInput;
         }
-
-
-
 
         internal static string GetDateInput()
         {
@@ -49,9 +43,6 @@ namespace HabitTracker
             return dateInput;
         }
 
-
-
-
         internal static string GetActivityInput()
         {
             Console.WriteLine("Enter the activity you would like to track or type 0 to return to the Main Menu");
@@ -68,9 +59,6 @@ namespace HabitTracker
 
             return activityInput;
         }
-
-
-
 
         internal static string GetUnitInput()
         {
@@ -89,9 +77,6 @@ namespace HabitTracker
 
             return unitInput;
         }
-
-
-
 
         internal static string GetViewType()
         {
@@ -112,10 +97,6 @@ namespace HabitTracker
             return viewInput;
         }
 
-
-
-
-
         internal static string GetDateViewType()
         {
             Console.WriteLine("\n\nType 'specific' to view a record from a specific date, or type 'year' to view records from a year.\n" +
@@ -129,7 +110,6 @@ namespace HabitTracker
 
             string date;
             string tableCmd = "";
-
 
             switch (dateViewType)
             {
@@ -158,7 +138,6 @@ namespace HabitTracker
                     tableCmd = $"SELECT * FROM habits WHERE Date LIKE '%{date}%'";
                     break;
             }
-
             return tableCmd;
         }
     }

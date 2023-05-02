@@ -1,7 +1,6 @@
 ﻿using System.Data.SQLite;
 using System.Globalization;
 
-
 namespace HabitTracker
 {
     internal class DbViewer
@@ -16,7 +15,6 @@ namespace HabitTracker
             {
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
-
 
                 var viewType = Helpers.GetViewType();
 

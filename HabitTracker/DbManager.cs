@@ -6,8 +6,6 @@ namespace HabitTracker
     internal class DbManager
     {
 
-
-
         public static void Insert()
         {
 
@@ -33,12 +31,6 @@ namespace HabitTracker
             }
             Console.Clear();
         }
-
-
-
-
-
-
 
         public static void Update()
         {
@@ -81,12 +73,6 @@ namespace HabitTracker
                 connection.Close();
             }
         }
-
-
-
-
-
-
 
         public static void Delete()
         {
