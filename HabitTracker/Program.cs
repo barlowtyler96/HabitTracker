@@ -8,10 +8,8 @@ namespace HabitTracker
         
         static void Main(string[] args)
         {
-            var connectionString = @"Data Source=habit-Tracker.db";
-
             //Using statement calls Dispose() after the using block is left.
-            using (var connection = new SQLiteConnection(connectionString))
+            using (var connection = new SQLiteConnection(ConnectionString))
             {
                 connection.Open();
                 var tableCmd = connection.CreateCommand(); //Creates a command to send to DB

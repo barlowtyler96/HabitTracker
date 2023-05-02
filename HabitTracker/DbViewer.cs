@@ -6,7 +6,7 @@ namespace HabitTracker
 {
     internal class DbViewer
     {
-        //Read
+        
         public static void ViewRecords()
         {
             
@@ -46,7 +46,7 @@ namespace HabitTracker
 
                 SQLiteDataReader reader = tableCmd.ExecuteReader();
                 
-
+                //Add specified records to list of Habits
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -55,7 +55,7 @@ namespace HabitTracker
                             new Habit
                             {
                                 Id = reader.GetInt32(0), //returns values of column(i) specified
-                                Date = DateTime.ParseExact(reader.GetString(1), "MM-dd-yy", new CultureInfo("en-US")), 
+                                Date = DateTime.ParseExact(reader.GetString(1), "MM-dd-yyyy", new CultureInfo("en-US")), 
                                 Activity = reader.GetString(2),
                                 Unit = reader.GetString(3),
                                 Amount = reader.GetInt32(4) 
@@ -75,6 +75,8 @@ namespace HabitTracker
                 // Add up elements in sumData list
                 var summedAmount = amountData.Sum();
 
+
+                //Print records in list
                 Console.WriteLine("===================================================================================");
                 foreach (var ex in tableData)
                 {
@@ -82,7 +84,7 @@ namespace HabitTracker
                 }
                 Console.WriteLine("===================================================================================");
 
-                Console.WriteLine($"\nTotal amount for specified records: {summedAmount}");
+                Console.WriteLine($"\nTotal Units for specified records: {summedAmount}");
             }
             Console.WriteLine($"Total Entries: {counter}");
             Console.WriteLine("=======================================");

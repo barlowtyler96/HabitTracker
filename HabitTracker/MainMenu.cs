@@ -21,24 +21,29 @@
 
                 var commandInput = Console.ReadLine();
 
-                switch (commandInput)
+                switch (commandInput.Trim())
                 {
                     case "0":
                         Console.WriteLine("\nGoodbye!");
                         closeApp = true;
                         break;
+
                     case "1":
                         DbViewer.ViewRecords();  
                         break;
+
                     case "2":
                         DbManager.Insert();
                         break;
+
                     case "3":
                         DbManager.Delete();
                         break;
+
                     case "4":
                         DbManager.Update();
                         break;
+
                     default:
                         Console.Clear();
                         Console.WriteLine("Invalid input. Review the menu and enter a valid command.");
