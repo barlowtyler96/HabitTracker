@@ -80,64 +80,90 @@ namespace HabitTracker
 
         internal static string GetViewType()
         {
-            Console.WriteLine("\n\nType 'all' to view all records, 'activity' to view by activity type, or 'date' to view by date.\n" +
-                              "Type 0 to return to the Main Menu.\n\n");
-            var viewInput = Console.ReadLine().Trim();
+            var leaveMenu = false;
+            string finalInput = "";
 
-            if (viewInput == "0")
-                MainMenu.GetUserInput();
-
-            else if (viewInput != "all" && viewInput != "activity" && viewInput != "date")
+            while (leaveMenu == false)
             {
-                Console.Clear();
-                Console.WriteLine("\n\nInvalid command. Review the options and try again.\n");
-                GetViewType();
-            }
+                Console.WriteLine("\n\nType 'all' to view all records, 'activity' to view by activity type, or 'date' to view by date.\n" +
+                              "Type 0 to return to the Main Menu.\n\n");
+                var viewInput = Console.ReadLine().Trim();
+                
+                switch (viewInput)
+                {
+                    case "0":
+                        MainMenu.GetUserInput();
+                        break;
 
-            return viewInput;
+                    case "all":
+                        leaveMenu = true;
+                        finalInput = "all";
+                        break;
+
+                    case "date":
+                        leaveMenu = true;
+                        finalInput = "date";
+                        break;
+
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Invalid command. Review the options and try again.");
+                        break;
+                }
+            }
+            return finalInput;
         }
 
         internal static string GetDateViewType()
         {
-            Console.WriteLine("\n\nType 'specific' to view a record from a specific date, or type 'year' to view records from a year.\n" +
-                              "Type 0 to return to the Main Menu\n\n");
-            var dateViewType = Console.ReadLine().Trim();
-
-            if(dateViewType != "specific" || dateViewType != "year")
-            {
-
-            }
-
             string date;
             string tableCmd = "";
+            var leaveMenu = false;
 
-            switch (dateViewType)
+            while(leaveMenu == false)
             {
-                case "0":
-                    MainMenu.GetUserInput();
-                    break;
+                Console.WriteLine("\n\nType 'specific' to view a record from a specific date, or type 'year' to view records from a year.\n" +
+                              "Type 0 to return to the Main Menu\n\n");
+                var dateViewType = Console.ReadLine().Trim();
 
-                case "specific":
-                    date = Helpers.GetDateInput();
-                    tableCmd = $"SELECT * FROM habits WHERE Date = '{date}'";
-                    break;
+                switch (dateViewType)
+                {
+                    case "0":
+                        MainMenu.GetUserInput();
+                        break;
 
-                case "year":
-                    Console.Clear();
+                    case "specific":
+                        date = Helpers.GetDateInput();
 
-                    Console.WriteLine("Enter a year to view all records from that year: (eg. 2023)");
-                    date = Console.ReadLine();
+                        tableCmd = $"SELECT * FROM habits WHERE Date = '{date}'";
+                        
+                        leaveMenu = true;
+                        break;
 
+                    case "year":
+                        Console.Clear();
+                        leaveMenu = true;
 
-                    while (!DateTime.TryParseExact(date, "yyyy", new CultureInfo("en-us"), DateTimeStyles.None, out _))
-                    {
-                        Console.WriteLine("Invalid year. Enter the year in the following format: (yyyy)");
+                        Console.WriteLine("Enter a year to view all records from that year: (eg. 2023)");
                         date = Console.ReadLine();
-                    }
 
-                    tableCmd = $"SELECT * FROM habits WHERE Date LIKE '%{date}%'";
-                    break;
+
+                        while (!DateTime.TryParseExact(date, "yyyy", new CultureInfo("en-us"), DateTimeStyles.None, out _))
+                        {
+                            Console.WriteLine("Invalid year. Enter the year in the following format: (yyyy)");
+                            date = Console.ReadLine();
+                        }
+
+                        tableCmd = $"SELECT * FROM habits WHERE Date LIKE '%{date}%'";
+                        break;
+
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Invalid Command. Review the options and try again.");
+                        break;
+                }
             }
+            
             return tableCmd;
         }
     }
