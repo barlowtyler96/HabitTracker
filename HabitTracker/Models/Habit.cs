@@ -6,9 +6,9 @@ internal class Habit
 
     public DateTime Date { get; set; }
 
-    public string Activity { get; set; }
+    public string? Activity { get; set; }
 
-    public string Unit { get; set; }
+    public string? Unit { get; set; }
 
     public int Amount { get; set; }
 }

@@ -1,6 +1,7 @@
 ﻿using HabitTracker.Helpers;
 using HabitTracker.Models;
 using HabitTracker.View;
+using System.Configuration;
 using System.Data.SQLite;
 using System.Globalization;
 
@@ -8,10 +9,10 @@ namespace HabitTracker.Controller;
 
 internal class DbController
 {
-    public static string ConnectionString { get; private set; } = @"Data Source=habit-Tracker.db";
+    private static readonly string connectionString = ConfigurationManager.AppSettings.Get("connString");
     public static void CreateTable()
     {
-        using (var connection = new SQLiteConnection(ConnectionString))
+        using (var connection = new SQLiteConnection(connectionString))
         {
             connection.Open();
             using (var tableCmd = connection.CreateCommand())//Creates a command to send to DB
@@ -42,7 +43,7 @@ internal class DbController
         int amount = Helper.GetNumberInput("Enter the amount as an integer: (1, 2, 3)." +
                                     "\nType 0 to return to the main menu");
 
-        using (var connection = new SQLiteConnection(ConnectionString))
+        using (var connection = new SQLiteConnection(connectionString))
         {
             connection.Open();
             using (var tableCmd = connection.CreateCommand())
@@ -64,7 +65,7 @@ internal class DbController
 
         var recordId = Helper.GetNumberInput("\n\nPlease type the Id of the record you'd like to update " +
                                             "or 0 to return to the Main Menu");
-        using (var connection = new SQLiteConnection(ConnectionString))
+        using (var connection = new SQLiteConnection(connectionString))
         {
             connection.Open();
 
@@ -107,7 +108,7 @@ internal class DbController
         var recordId = Helper.GetNumberInput("\n\nPlease type the Id of the record you'd like to delete " +
                                             "or 0 to return to the Main Menu");
 
-        using (var connection = new SQLiteConnection(ConnectionString))
+        using (var connection = new SQLiteConnection(connectionString))
         {
             connection.Open();
             using (var tableCmd = connection.CreateCommand())
@@ -135,7 +136,7 @@ internal class DbController
 
         int counter = 0;
         Console.Clear();
-        using (var connection = new SQLiteConnection(DbController.ConnectionString))
+        using (var connection = new SQLiteConnection(DbController.connectionString))
         {
             connection.Open();
             var tableCmd = connection.CreateCommand();
